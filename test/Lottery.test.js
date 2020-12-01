@@ -62,6 +62,36 @@ describe('Lottery Contract', () => {
         assert.equal(accounts[1], players[1]);
         assert.equal(accounts[2], players[2]);
         assert.equal(3, players.length);
-
     });
+
+    // Need response to throw an error with this test
+        // We can handle errors with a try/catch statement
+    it('requires a minimum amount of ether to enter', async () => {
+        try {
+            await lottery.methods.enter.send({
+                from: account[0],
+                value: 0
+            });
+            assert(false); // assert if something went wrong
+        }   catch (err) {
+            assert(err); // assert if err true
+        }
+    });
+
+    // note 1
+    it('only manager can call pickWinner', async () => {
+        try {
+            await lottery.methods.pickWinner().send({
+                from: account[1] // WE want test to fail - contract deployed from accounts[0]
+            });
+            assert(false);
+        } catch (err) {
+            assert(err); // if there is an error assert if true.  
+        }
+    })
+
 });
+
+/*
+Note 1 - This funtion has a restricted modifier on it - we purposefully want this test to use the incorrect address to call this funtion and assert if there is an error. 
+*/
