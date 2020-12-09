@@ -19,9 +19,16 @@ const deploy = async () => {
     console.log('Attempting to deploy from account', accounts[0]);
 
     const result = await new web3.eth.Contract(JSON.parse(interface))
-        .deploy({ data: bytecode })
-        .send({ gas: '1000000', from: accounts[0] });
+    .deploy({ data: bytecode })
+    .send({ gas: '1000000', from: accounts[0] });
 
+    console.log(interface);
     console.log('Contract deployed to', result.options.address);
 };
 deploy();
+
+/*
+Attempting to deploy from account 0xdBB3C11A3ded56D19bc65F12FdA28116E96B6A1f
+Contract deployed to 0xcC8C3261cB0387a56fc564B24FBfFEd5C0FBC102
+*/
+

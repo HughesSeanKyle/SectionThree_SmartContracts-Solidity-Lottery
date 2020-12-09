@@ -6,9 +6,7 @@ import web3 from './web3';
 class App extends React.Component {
   render() {
 
-    // Log anyting getAccounts receives to the console. 
-    web3.eth.getAccounts()
-      .then(console.log);
+    
 
     return (
       <div className="App">
