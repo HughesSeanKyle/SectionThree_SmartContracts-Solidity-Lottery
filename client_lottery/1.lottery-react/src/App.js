@@ -6,10 +6,8 @@ import lottery from './lottery';
 
 class App extends React.Component {
   // Initialize state to default value
-  constructor(props) {
-    super(props);
-
-    this.state = { manager: ''};
+  state = {
+    manager: ''
   };
 
 
