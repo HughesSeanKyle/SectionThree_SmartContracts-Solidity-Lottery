@@ -9,8 +9,10 @@ class App extends React.Component {
   state = {
     manager: '', 
     players: [],
-    balance: ''
-  };
+    balance: '',
+    value: ''
+  }; // 5
+
 
   // Do Once when component renders 
   async componentDidMount() { //1
@@ -21,6 +23,7 @@ class App extends React.Component {
     this.setState({ manager, players, balance }) //3 
   }
 
+  
   render() {
     return (
       <div>
@@ -29,6 +32,20 @@ class App extends React.Component {
           This contract is managed by {this.state.manager}. 
           There are currently {this.state.players.length} people entered, cpmpeting to win {web3.utils.fromWei(this.state.balance, 'ether')} ether!
         </p>
+
+        <hr />
+
+        <form>
+          <h4>Want to try your luck?</h4>
+            <div>
+              <label>Amount of ether to enter</label>
+              <input 
+                value={this.state.value}
+                onChange={event => this.setState({ value: event.target.value })}
+              />
+            </div>
+            <button>Enter</button>
+        </form> 
       </div>
     );
   };
@@ -46,5 +63,7 @@ export default App;
 
 //4 - lottery.options.address => retieves the address of the contract. 
 
-    The balance variable is not actually a number but it is an object. Number that is  wrapped in a library called bigNumber.js. For this reason we are initializing balance as an empty string in the mean time. 
+    The balance variable is not actually a number but it is an object. Number that is  wrapped in a library called bigNumber.js. For this reason we are initializing balance as an empty string in the mean time.
+    
+//5 - The value state will be initialized as an empty string for a different reason that the balance state because a text input will always be empty string inputs or will be a string that we are working with. 
 */
