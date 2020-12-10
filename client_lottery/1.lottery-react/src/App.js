@@ -21,9 +21,21 @@ class App extends React.Component {
     const balance = await web3.eth.getBalance(lottery.options.address); // 4
 
     this.setState({ manager, players, balance }) //3 
-  }
+  };
 
-  
+  // 6
+  onSubmit = async (event) => {
+    event.preventDefault();
+
+    const accounts = await web3.eth.getAccounts();
+
+    await lottery.methods.enter().send({
+      from: accounts[0], // assumption
+      value: web3.utils.toWei(this.state.value, 'ether')
+    });
+  };
+
+
   render() {
     return (
       <div>
@@ -35,7 +47,7 @@ class App extends React.Component {
 
         <hr />
 
-        <form>
+        <form onSubmit={this.onSubmit}>
           <h4>Want to try your luck?</h4>
             <div>
               <label>Amount of ether to enter</label>
@@ -65,5 +77,7 @@ export default App;
 
     The balance variable is not actually a number but it is an object. Number that is  wrapped in a library called bigNumber.js. For this reason we are initializing balance as an empty string in the mean time.
     
-//5 - The value state will be initialized as an empty string for a different reason that the balance state because a text input will always be empty string inputs or will be a string that we are working with. 
+//5 - The value state will be initialized as an empty string for a different reason that the balance state because a text input will always be empty string inputs or will be a string that we are working with.
+
+//6 - When writing onSubmit this way we do not have to worry about the context of 'this'. The value of this will be automatically set to be equal to our component.
 */
