@@ -10,7 +10,8 @@ class App extends React.Component {
     manager: '', 
     players: [],
     balance: '',
-    value: ''
+    value: '',
+    message: ''
   }; // 5
 
 
@@ -29,10 +30,16 @@ class App extends React.Component {
 
     const accounts = await web3.eth.getAccounts();
 
+    this.setState({ message: 'Processing your transaction, please wait...' })
+
+    // This line will take about 15/30s to process. 
     await lottery.methods.enter().send({
-      from: accounts[0], // assumption
+      from: accounts[0], // assumption that user will enter from 1st metamask account
       value: web3.utils.toWei(this.state.value, 'ether')
     });
+
+    this.setState({ message: 'Your entry was successful. Goodluck!' })
+
   };
 
 
@@ -42,7 +49,7 @@ class App extends React.Component {
         <h2>Lottery Contract</h2>
         <p>
           This contract is managed by {this.state.manager}. 
-          There are currently {this.state.players.length} people entered, cpmpeting to win {web3.utils.fromWei(this.state.balance, 'ether')} ether!
+          There are currently {this.state.players.length} people entered, competing to win {web3.utils.fromWei(this.state.balance, 'ether')} ether!
         </p>
 
         <hr />
@@ -58,6 +65,11 @@ class App extends React.Component {
             </div>
             <button>Enter</button>
         </form> 
+
+        <hr />
+
+        <h1>{this.state.message}</h1>
+
       </div>
     );
   };
