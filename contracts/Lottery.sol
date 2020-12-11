@@ -3,49 +3,47 @@ pragma solidity ^0.4.17;
 contract Lottery {
     address public manager;
     address[] public players;
-    
+
     //constructor function - Note caps //1
-    constructor () public {
-       manager = msg.sender; 
+    constructor() public {
+        manager = msg.sender;
     }
-    
+
     // 2 , 2.1, 2.2
     function enter() public payable {
         require(msg.value > .01 ether);
-        
+
         players.push(msg.sender);
     }
-    
+
     //3, 3.1, 3.2
-    function random() private view returns (uint) {
-        return uint(keccak256(block.difficulty, now, players));
+    function random() private view returns (uint256) {
+        return uint256(keccak256(block.difficulty, now, players));
     }
-    
+
     //4 , 4.1
     function pickWinner() public restricted {
-        
-        uint index = random() % players.length; // gets index of winner 
+        uint256 index = random() % players.length; // gets index of winner
         players[index].transfer(this.balance);
         players = new address[](0); //4.2
     }
-    
+
     //5
-        //Modifiers
+    //Modifiers
     modifier restricted() {
         require(msg.sender == manager, "You are not the manager"); //4.3 <= Was in section/block 4
-        _; //5.1 
+        _; //5.1
     }
-    
+
     //6
-        //Retrieving all players
-    function getPlayers() public view returns(address[]) {
+    //Retrieving all players
+    function getPlayers() public view returns (address[]) {
         return players;
     }
 }
 
-
 //discussed msg object
-    // msg object is global - no declaration needed.
+// msg object is global - no declaration needed.
 /*
 //1
 When contract created we need to get manager(contract creator) details.
